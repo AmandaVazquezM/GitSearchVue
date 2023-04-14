@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub search</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://unpkg.com/vue@3"></script> <!--Importamos view sin herramientas-->
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- Favorites -->
+        <div class="favorites">
+        </div>
+
+        <!-- Content -->
+        <article class="content">
+            <h1 class="content__title">Search GitHub users</h1>
+
+            <!-- Search -->
+            <form class="search" v-on:submit.prevent="doSearch()" > <!--V-on sirve para que el formulario pueda escuchar eventos, en este caso el submit llama a la funcion doSearch -->
+                <!--Añadimos el prevent como si fuera un prevent default para que no nos recarge la página-->
+                <input type="text" v-model="search" class="search__input" required placeholder="Search GitHub users"> <!--Con v-model hacemos que sea reactivo-->
+                <input type="submit" class="search__submit" value="Search">
+            </form>
+            
+            <!-- Result -->
+            <div class="result" v-if="result"> <!-- v-if sirve como condicional, también podemos usar v-show dependiendo del caso-->
+                <a href="#" class="result__toggle-favorite" @click="addFavorite()">Add favorite ⭐</a>
+                <h2 class="result__name">{{ result.name }}</h2> <!--en result guardamos data que contiene el objeto que nos da git-->
+                <img v-bind:src="result.avatar_url" v-bind:alt="result.name" class="result__avatar">
+                <p class="result__bio">{{ result.bio }}
+                    <a v-bind:href="result.blog" class="result__blog">{{ result.blog }}</a>
+                </p>
+            </div>
+            <p v-else>Waiting for search...</p> <!--else, también podemos poner else-if-->
+            <!-- Error -->
+            <div class="result__error" v-if="error">{{ error }}</div>
+        </article>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        const mountedApp= app.mount("#app") //hay que montar vue en una dependencia html, es un getter y un setter a la vez mountedApp.message= "primer ejercicio vue"
+    </script>
+</body>
+
+</html>
